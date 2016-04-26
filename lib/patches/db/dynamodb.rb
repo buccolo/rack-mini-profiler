@@ -4,7 +4,7 @@ class Aws::DynamoDB::Client
   def query(*args, &blk)
     return query_without_profiling(*args, &blk) unless SqlPatches.should_measure?
 
-    result, _record = SqlPatches.record_sql(args[0].inspect) do
+    result, _record = SqlPatches.record_sql(JSON.pretty_generate(args[0])) do
       query_without_profiling(*args, &blk)
     end
 
